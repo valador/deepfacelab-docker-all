@@ -1,9 +1,9 @@
 version: "2"
 services:
-  app:
+  deepfacelab:
     image: slayerus/deepfacelab:nvidia-1.0
     volumes:
-      - ./workspace:/app/workspace
+      - ./workspace:/usr/local/deepfacelab/workspace
     deploy:
       resources:
         reservations:
