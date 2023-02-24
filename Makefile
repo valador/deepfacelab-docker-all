@@ -18,7 +18,9 @@ build-ffmpeg-nvidia:
 build-deepfacelab-nvidia:
 	docker build -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 	docker push slayerus/deepfacelab:nvidia-1.0
-
+.PHONY: run-deepfacelab
+run-deepfacelab:
+	docker run --gpus all --rm -it -v workspace:/usr/local/deepface/workspace slayerus/deepfacelab:nvidia-1.0 /bin/bash
 ## stop and remove containers & volumes (--remove-orphans Remove containers for services not defined in the Compose file)
 .PHONY: clean
 clean:
