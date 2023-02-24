@@ -1,31 +1,12 @@
-version: "3.9"
+version: "2"
 services:
- anaconda3-nvidia:
-    build:
-      context: ./anaconda3-docker
-      dockerfile: ./anaconda3-docker/Dockerfile.nvidia
-      args:
-        - C_SITE_USERNAME=${C_SITE_USERNAME}
-        - C_SITE_PASSWORD=${C_SITE_PASSWORD}
-        - C_VERSION=${C_VERSION}
-    image: slayerus/anaconda3:nvidia-1.0
+  app:
+    build: .
     volumes:
       - ./workspace:/app/workspace
-
-
-  ffmpeg:
-    build:
-      context: .
-      dockerfile: ./ffmpeg-docker/Dockerfile
-      args:
-        - C_SITE_USERNAME=${C_SITE_USERNAME}
-        - C_SITE_PASSWORD=${C_SITE_PASSWORD}
-        - C_VERSION=${C_VERSION}
-    volumes:
-      - ./workspace:/app/workspace
-
-
-networks:
-  deepfacelab_net:
-    name: deepfacelab_net
-    driver: bridge
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    command: bash
