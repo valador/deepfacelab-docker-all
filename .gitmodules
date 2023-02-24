@@ -1,9 +1,0 @@
-[submodule "ffmpeg-docker"]
-	path = ffmpeg-docker
-	url = https://github.com/xychelsea/ffmpeg-docker.git
-[submodule "anaconda3-docker"]
-	path = anaconda3-docker
-	url = https://github.com/xychelsea/anaconda3-docker.git
-[submodule "deepfacelab-docker"]
-	path = deepfacelab-docker
-	url = https://github.com/xychelsea/deepfacelab-docker.git
