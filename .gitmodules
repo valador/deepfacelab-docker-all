@@ -1,0 +1,9 @@
+[submodule "anaconda3"]
+	path = anaconda3
+	url = https://github.com/valador/anaconda3.git
+[submodule "ffmpeg"]
+	path = ffmpeg
+	url = https://github.com/valador/ffmpeg.git
+[submodule "deepfacelab"]
+	path = deepfacelab
+	url = https://github.com/valador/deepfacelab.git
