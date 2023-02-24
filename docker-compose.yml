@@ -1,7 +1,7 @@
 version: "2"
 services:
   app:
-    build: .
+    image: slayerus/deepfacelab:nvidia-1.0
     volumes:
       - ./workspace:/app/workspace
     deploy:

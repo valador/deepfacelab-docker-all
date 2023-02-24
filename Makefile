@@ -10,13 +10,13 @@ help:
 .PHONY: build-anaconda-nvidia build-ffmpeg-nvidia build-deepfacelab-nvidia
 build-anaconda-nvidia:
 #	BUILD_TAG=${ANACONDA_TAG} docker-compose -f docker-compose.yml build $(c)
-	docker build -t slayerus/anaconda3:nvidia-1.0 -f ./anaconda3-docker/Dockerfile.nvidia ./anaconda3-docker/.
+	docker build -t slayerus/anaconda3:nvidia-1.0 -f ./anaconda3/Dockerfile.nvidia ./anaconda3/.
 	docker push slayerus/anaconda3:nvidia-1.0
 build-ffmpeg-nvidia:
-	docker build -t slayerus/ffmpeg:nvidia-1.0 -f ./ffmpeg-docker/Dockerfile ./ffmpeg-docker/.
+	docker build -t slayerus/ffmpeg:nvidia-1.0 -f ./ffmpeg/Dockerfile ./ffmpeg/.
 	docker push slayerus/ffmpeg:nvidia-1.0
 build-deepfacelab-nvidia:
-	docker build -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab-docker/Dockerfile.nvidia ./deepfacelab-docker/.
+	docker build -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 	docker push slayerus/deepfacelab:nvidia-1.0
 
 ## stop and remove containers & volumes (--remove-orphans Remove containers for services not defined in the Compose file)
