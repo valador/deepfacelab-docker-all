@@ -18,9 +18,9 @@ build-ffmpeg-nvidia:
 build-deepfacelab-nvidia:
 	docker build -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 	docker push slayerus/deepfacelab:nvidia-1.0
-.PHONY: run-deepfacelab
-run-deepfacelab:
-	docker run --gpus all --rm -it -v workspace:/usr/local/deepface/workspace slayerus/deepfacelab:nvidia-1.0 /bin/bash
+# .PHONY: run-deepfacelab
+# run-deepfacelab:
+# 	docker run --gpus all --rm -it -v workspace:/usr/local/deepface/workspace slayerus/deepfacelab:nvidia-1.0 /bin/bash
 ## stop and remove containers & volumes (--remove-orphans Remove containers for services not defined in the Compose file)
 .PHONY: clean
 clean:
@@ -28,69 +28,35 @@ clean:
 	docker-compose -f docker-compose.yml rm -v --force
 ## removes everything created by docker-compose and prunes everything in docker
 ## (!!) this includes all your work with docker, not just stuff (--remove-orphans Remove containers for services not defined in the Compose file)
-.PHONY: purge-dev purge-prod
-purge-dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.slave.dev.yml -f docker-compose.backup.yml down --volumes --rmi all --remove-orphans
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.slave.dev.yml -f docker-compose.backup.yml rm -v --force
+.PHONY: purge-deepfacelab-nvidia
+purge-deepfacelab-nvidia:
+	docker-compose -f docker-compose.yml down --volumes --rmi all --remove-orphans
+	docker-compose -f docker-compose.yml rm -v --force
 	yes | docker system prune --all --volumes --force
-purge-prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.slave.prod.yml -f docker-compose.backup.yml down --volumes --rmi all --remove-orphans
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.slave.prod.yml -f docker-compose.backup.yml rm -v --force
-	yes | docker system prune --all --volumes --force
-## Default build target if no dependencies
-# .PHONY: build-%
-# build-%:
-# 	BUILD_TAG=$(BUILD_TAG) $*
 #Operate
-.PHONY: up-dev up-dev-slave up-prod up-prod-slave up-backup
-up-dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d $(c)
-up-dev-slave:
-	docker-compose -f docker-compose.slave.dev.yml up -d $(c)
-up-prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d $(c)
-up-prod-slave:
-	docker-compose -f docker-compose.slave.prod.yml up -d $(c)
-up-backup:
-	docker-compose -f docker-compose.backup.yml up -d $(c)
+.PHONY: up-deepfacelab-nvidia
+up-deepfacelab-nvidia:
+	docker-compose -f docker-compose.yml up -d $(c)
 
-.PHONY: start-dev start-prod start-prod-slave start-backup
-start-dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml start $(c)
-start-dev-slave:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml -f docker-compose.slave.dev.yml start $(c)
-start-prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml start $(c)
-start-prod-slave:
-	docker-compose -f docker-compose.yml docker-compose.prod.yml -f docker-compose.slave.prod.yml start $(c)
-start-backup:
-	docker-compose -f docker-compose.backup.yml start $(c)
+.PHONY: start-deepfacelab-nvidia
+start-deepfacelab-nvidia:
+	docker-compose -f docker-compose.yml start $(c)
 
-.PHONY:
-down-dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml down $(c)
-down-dev-slave:
-	docker-compose -f docker-compose.slave.dev.yml down $(c)
-down-prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml down $(c)
-down-prod-slave:
-	docker-compose -f docker-compose.slave.prod.yml down $(c)
-down-backup:
-	docker-compose -f docker-compose.backup.yml down $(c)
+.PHONY: stop-deepfacelab-nvidia
+stop-deepfacelab-nvidia:
+	docker-compose -f docker-compose.yml stop $(c)
+
+.PHONY: run-deepfacelab-nvidia
+run-deepfacelab-nvidia:
+	docker-compose run deepfacelab
+
+.PHONY: down-deepfacelab-nvidia
+down-deepfacelab-nvidia:
+	docker-compose -f docker-compose.yml down $(c)
 
 .PHONY: destroy
 destroy:
 	docker-compose -f docker-compose.yml -f docker-compose.yml down -v $(c)
-
-.PHONY: stop-dev stop-dev-slave stop-prod stop-prod-slave stop-backup stop-slave
-stop-dev:
-	docker-compose -f docker-compose.yml -f docker-compose.dev.yml stop $(c)
-stop-dev-slave:
-	docker-compose -f docker-compose.slave.dev.yml stop $(c)
-stop-prod:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop $(c)
-stop-prod-slave:
-	docker-compose -f docker-compose.slave.prod.yml stop $(c)
 
 
 .PHONY:
