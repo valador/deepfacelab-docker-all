@@ -5,8 +5,8 @@ services:
     container_name: deepfacelab
     image: slayerus/deepfacelab:nvidia-1.0
     volumes:
-      #- ./workspace:/usr/local/deepfacelab/workspace
-      - /tmp/.X11-unix:/tmp/.X11-unix
+      - "./workspace:/usr/local/deepfacelab/workspace:rw"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
     network_mode: "host"
     ipc: host
     environment:
