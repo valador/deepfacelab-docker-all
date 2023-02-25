@@ -2,6 +2,8 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 # ENVFILE := .env
 SHELL := /bin/bash
 
+DATETIME := $(shell date +%s)
+
 .PHONY: help
 help:
 	make -pRrq -f $(THIS_FILE) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
@@ -16,7 +18,7 @@ build-ffmpeg-nvidia:
 	docker build -t slayerus/ffmpeg:nvidia-1.0 -f ./ffmpeg/Dockerfile ./ffmpeg/.
 	docker push slayerus/ffmpeg:nvidia-1.0
 build-deepfacelab-nvidia:
-	docker build --build-arg CACHEBUST=$(date +%s) -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
+	docker build -t slayerus/deepfacelab:nvidia-1.0 --build-arg CACHEBUST=${DATETIME} -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 #	docker push slayerus/deepfacelab:nvidia-1.0
 # .PHONY: run-deepfacelab
 # run-deepfacelab:
