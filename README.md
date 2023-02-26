@@ -88,3 +88,29 @@ in cloned repo:
 ## Trouble
 1. cannot connect to X server SAEHD model train
 in host terminal run `xhost +`
+---
+# Pinned TF probability doesn't work with numpy >= 1.24
+numpy>=1.21.0,<1.24.0; python_version < '3.8'
+numpy>=1.22.0,<1.24.0; python_version >= '3.8'
+tensorflow-gpu>=2.7.0,<2.11.0
+pynvx==1.0.0 ; sys_platform == "darwin"
+
+tqdm>=4.64
+psutil>=5.9.0
+numexpr>=2.7.3; python_version < '3.9'  # >=2.8.0 conflicts in Conda
+numexpr>=2.8.3; python_version >= '3.9'
+opencv-python>=4.6.0.0
+pillow>=9.2.0
+scikit-learn==1.0.2; python_version < '3.9'  # AMD needs version 1.0.2 and 1.1.0 not available in Python 3.7
+scikit-learn>=1.1.0; python_version >= '3.9'
+fastcluster>=1.2.6
+matplotlib>=3.4.3,<3.6.0; python_version < '3.9'  # >=3.5.0 conflicts in Conda
+matplotlib>=3.5.1,<3.6.0; python_version >= '3.9'
+imageio>=2.19.3
+imageio-ffmpeg>=0.4.7
+ffmpy>=0.3.0
+# Exclude badly numbered Python2 version of nvidia-ml-py
+nvidia-ml-py>=11.515,<300
+tensorflow-probability<0.17
+typing-extensions>=4.0.0
+pywin32>=228 ; sys_platform == "win32"
