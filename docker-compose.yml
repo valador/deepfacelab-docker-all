@@ -1,6 +1,6 @@
 version: "2"
 services:
-  deepfacelab:
+  deepfacelab-nvidia:
     hostname: deepfacelab
     container_name: deepfacelab
     image: slayerus/deepfacelab:nvidia-1.0
@@ -15,5 +15,28 @@ services:
       resources:
         reservations:
           devices:
-            - capabilities: [gpu]
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: bash
+  deepfacelab-nvidia-jupyter:
+    hostname: deepfacelab-jupyter
+    container_name: deepfacelab-jupyter
+    image: slayerus/deepfacelab:nvidiajupyter-1.0
+    volumes:
+      - "./workspace:/usr/local/deepfacelab/workspace:rw"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+    ports:
+      - "8888:8888"
+    network_mode: "host"
+    ipc: host
+    environment:
+      - DISPLAY=$DISPLAY
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     command: bash

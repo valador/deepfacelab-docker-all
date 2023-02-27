@@ -83,7 +83,8 @@ in cloned repo:
 ## Roadmap
 1. Optimize size for deepfacelab conteiner, in this time 10.2gb, OMG! I update toolkits and now, container size... 13.41GB why? WHY!?
 2. Test build for other options (vanilla jupyter). Now only tested Nvidia
-3. Add build for gitlab
+3. ffmpeg dockerfiles similar with jupyter and without, need set ARG to image
+4. Add build for gitlab
    
 ## Trouble
 1. cannot connect to X server SAEHD model train

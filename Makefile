@@ -8,17 +8,27 @@ DATETIME := $(shell date +%s)
 help:
 	make -pRrq -f $(THIS_FILE) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 ## build all
-.PHONY: build-anaconda-nvidia build-ffmpeg-nvidia build-deepfacelab-nvidia
+.PHONY: build-anaconda-nvidia build-ffmpeg-nvidia build-deepfacelab-nvidia build-anaconda-nvidia-jupyter build-ffmpeg-nvidia-jupyter build-deepfacelab-nvidia-jupyter
 build-anaconda-nvidia:
 	docker build -t slayerus/anaconda3:nvidia-1.0 --no-cache -f ./anaconda3/Dockerfile.nvidia ./anaconda3/.
 #	docker push slayerus/anaconda3:nvidia-1.0
+build-anaconda-nvidia-jupyter:
+	docker build -t slayerus/anaconda3:nvidiajupyter-1.0 --no-cache -f ./anaconda3/Dockerfile.nvidia-jupyter ./anaconda3/.
+#	docker push slayerus/anaconda3:nvidiajupyter-1.0
 build-ffmpeg-nvidia:
 	docker build -t slayerus/ffmpeg:nvidia-1.0 --no-cache -f ./ffmpeg/Dockerfile ./ffmpeg/.
 #	docker push slayerus/ffmpeg:nvidia-1.0
+build-ffmpeg-nvidia-jupyter:
+	docker build -t slayerus/ffmpeg:nvidiajupyter-1.0 --no-cache -f ./ffmpeg/Dockerfile.jupyter ./ffmpeg/.
+#	docker push slayerus/ffmpeg:nvidiajupyter-1.0
 build-deepfacelab-nvidia:
 	docker build -t slayerus/deepfacelab:nvidia-1.0 -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 #	docker build -t slayerus/deepfacelab:nvidia-1.0 --build-arg CACHEBUST=${DATETIME} -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
 #	docker push slayerus/deepfacelab:nvidia-1.0
+build-deepfacelab-nvidia-jupyter:
+	docker build -t slayerus/deepfacelab:nvidiajupyter-1.0 -f ./deepfacelab/Dockerfile.nvidia-jupyter ./deepfacelab/.
+#	docker build -t slayerus/deepfacelab:nvidiajupyter-1.0 --build-arg CACHEBUST=${DATETIME} -f ./deepfacelab/Dockerfile.nvidia ./deepfacelab/.
+#	docker push slayerus/deepfacelab:nvidiajupyter-1.0
 # .PHONY: run-deepfacelab
 # run-deepfacelab:
 # 	docker run --gpus all --rm -it -v workspace:/usr/local/deepface/workspace slayerus/deepfacelab:nvidia-1.0 /bin/bash
@@ -34,16 +44,14 @@ purge-deepfacelab-nvidia:
 	docker-compose -f docker-compose.yml down --volumes --rmi all --remove-orphans
 	docker-compose -f docker-compose.yml rm -v --force
 	yes | docker system prune --all --volumes --force
-
-
-.PHONY: run-deepfacelab-nvidia
+.PHONY: run-deepfacelab-nvidia run-deepfacelab-nvidia-jupyter
 run-deepfacelab-nvidia:
-	docker-compose run deepfacelab
-
+	docker-compose run deepfacelab-nvidia
+run-deepfacelab-nvidia-jupyter:
+	docker-compose run deepfacelab-nvidia-jupyter
 .PHONY: destroy
 destroy:
 	docker-compose -f docker-compose.yml -f docker-compose.yml down -v $(c)
-
 .PHONY: ps
 ps:
 	docker ps --format \
